@@ -84,3 +84,46 @@ function calculardivision(){
     document.getElementsByName("div_total")[0].value= num1/num2;
 
 }
+function cargarweb(){
+    var cant, unidad, urlComp;
+
+    cant = document.getElementById("distancia").value;
+    unidad = document.getElementsByName("unidades")[0].value;
+
+    urlComp = "segundaWeb.html#" + cant + "#" + unidad ;
+    window.open(urlComp) ;
+
+}
+
+function cargarresultados() {
+    var urlComp , can, un ;
+
+    urlComp= window.location.href.split("/")[5];
+
+    can= urlComp.split( "#")[1];
+    un= urlComp.split( "#")[2];
+
+    document.getElementById("dist").value = can + " " + un;
+
+}
+
+
+
+function guardarLocalStorage () {
+    let distancia, unidad;
+    distancia = document.getElementById('distancia').value;
+    unidad = document.getElementsByName('unidades')[0].value;
+    localStorage.setItem("unidadesLS", unidad);
+    localStorage.setItem("distanciaLS", distancia);
+    window.open('2_Web.html');
+}
+
+function cargarlocalStorage(){
+let cant , un;
+cant = localStorage.getItem("distanciaLS");
+un =  localStorage.getItem("unidadesLS");
+
+document.getElementById( "dist").value = cant + " "  + un;
+
+
+}
