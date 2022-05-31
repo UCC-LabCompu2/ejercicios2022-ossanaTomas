@@ -18,8 +18,158 @@
     var canvas = document.getElementById("pongCanvas");
     var ctx  = canvas.getContext("2d");
 
-    ctx.beginPath();
-    ctx.arc()
+    var x= canvas.width/2;
+    var y= canvas.height-10;
+    var dx = 2;
+    var dy = -2;
+
+
+    var pelota = {
+        radio:10,
+        dibujar: function () {
+            ctx.beginPath();
+            ctx.arc(x , y, this.radio, 0, 2 * Math.PI);
+            ctx.fillStyle = "green";
+            ctx.fill();
+            ctx.closePath();
+        }
+    };
+
+
+    var barra = {
+        ancho: 75,
+        alto: 10,
+        posX: (canvas.width-75)/2,
+        dibujar: function () {
+            ctx.beginPath();
+            ctx.fillRect( this.posX, 310 ,this.ancho, this.alto );
+            ctx.fillStyle= "#0095DD"
+            ctx.fill();
+            ctx.closePath()
+        }
+
+    };
+
+    var ladrillo = {
+        alto:20,
+        ancho:75,
+
+    };
+    var filas= 3;
+    var columnas =5;
+    var espaciado = 10;
+    var espacioSup = 30;
+    var espacioizq = 30;
+
+    var matrizLadrillos = [];
+    for(c=0; c<columnas;c++){
+        matrizLadrillos[c]=[];
+        for(f=0; f<filas; f++){
+            matrizLadrillos[c][f]= {x:0,y:0, status:1};
+        }
+    }
+    var ladrillox;
+    var ladrilloy;
+
+    function dibujarLadrillos(){
+        for(c=0; c<columnas;c++) {
+            for (f = 0; f < filas; f++) {
+                if(matrizLadrillos[c][f].status==1) {
+
+                     ladrillox = (c *(ladrillo.ancho + espaciado))+espacioizq;
+                     ladrilloy = (f *(ladrillo.alto + espaciado))+espacioSup;
+                    matrizLadrillos[c][f].x = ladrillox;
+                    matrizLadrillos[c][f].y = ladrilloy;
+                    ctx.beginPath();
+                    ctx.fillRect(ladrillox, ladrilloy, ladrillo.ancho, ladrillo.alto);
+                    ctx.fill();
+                    ctx.closePath()
+                  }
+               }
+            }
+        }
+
+
+var derPresionado= false;
+var izqpresionado = false;
+
+document.addEventListener("keydown",keyDownHandler, false);
+    document.addEventListener("keyup",keyUpHandler, false);
+
+function keyDownHandler (e) {
+    if (e.keyCode === 39) {
+        derPresionado = true;
+    } else if (e.keyCode === 37) {
+        izqpresionado = true;
+    }
+}
+
+    function keyUpHandler (e) {
+        if (e.keyCode === 39) {
+            derPresionado = false;
+        } else if (e.keyCode === 37) {
+            izqpresionado = false;
+        }
+    }
+
+
+    function detectarcolision() {
+        for(c=0;c<columnas;c++) {
+            for (f = 0; f<filas; f++) {
+                var b = matrizLadrillos [c][f];
+                if (x>b.x && x<b.x+ladrillo.ancho && y>b.y && y<b.y+ladrillo.alto){
+                    dy=-dy;
+                    b.status=0;
+                }
+            }
+        }
+    }
+
+
+    function dibujar() {
+
+        canvas.width = canvas.width;
+
+        //rebotar izquierda y derecha
+        if (x + dx < pelota.radio || x + dx > canvas.width - pelota.radio) {
+            dx=-dx;
+        }
+
+        // rebotar arriba y abajo
+        if (y + dy < pelota.radio || y + dx > canvas.height - pelota.radio) {
+            dy=-dy;
+        }
+
+
+        if (y+dy > canvas.height - pelota.radio) {
+            if (x>barra.posX && x<barra.ancho+barra.posX) {
+                dy=-dy;
+            } else {
+                alert("GAME OVER");
+            }
+        }
+
+
+        //moverser derecha o izquierda
+        if (derPresionado && barra.posX < canvas.width - barra.ancho) {
+            barra.posX += 7;
+        } else if (izqpresionado && barra.posX > 0) {
+            barra.posX -= 7;
+        }
+
+
+        pelota.dibujar();
+        barra.dibujar();
+        detectarcolision();
+        dibujarLadrillos();
+
+
+        x+=dx;
+        y+=dy;
+    }
+
+        setInterval(dibujar, 7);
+
 </script>
 
 </body>

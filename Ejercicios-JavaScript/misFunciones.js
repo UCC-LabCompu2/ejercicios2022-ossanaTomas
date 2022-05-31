@@ -133,10 +133,120 @@ function dibujarCirCuadr(){
    var yMax= canvas.height;
    var margen= 5
    ctx.fillStyle= "#333899";
-   ctx.fillRect (0 + margen, yMax-40- margen,   40, 40) ;
+   ctx.fillRect (margen, yMax-40- margen,   40, 40) ;
 
 
    ctx.arc (xMax/2, yMax/2, 20  ,0, 2*Math.PI );
    ctx.stroke ();
    ctx.fill();
 }
+var bandera;
+function dibujar(event) {
+    var canvas = document.getElementById("canvasAdibujar ");
+    var ctx = canvas.getContext("2d");
+
+
+    var posX = event.clientX;
+    var posY = event.clientY;
+    console.log(posX, posY);
+canvas.onmousedown = function (){bandera = true};
+canvas.onmouseup = function () {bandera = false};
+
+if (bandera){
+    ctx.fillRect(posX, posY, 5, 5);
+    ctx.fill;
+}}
+
+function limpiarCanvas(){
+    var canvas = document.getElementById("canvasAdibujar");
+    var ctx = canvas.getContext("2d");
+
+    canvas.Width = canvas.Width;
+}
+
+function dibujarCuadriculado() {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+
+    var anchoMax = canvas.width;
+    var aluraMax = canvas.height;
+
+    //dibujar lineas horizontales
+    ctx.beginPath();
+    for (var i = 0; i < aluraMax;) {
+        ctx.moveTo(0, i);
+        ctx.lineTo(anchoMax, i);
+        ctx.strokeStyle = "#000000"
+        ctx.stroke();
+        i = i + 20;
+    }
+    ctx.closePath();
+
+    ctx.beginPath();
+    for (var i = 0; i < anchoMax;) {
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, aluraMax);
+        ctx.strokeStyle = "#000000"
+        ctx.stroke();
+        i = i + 20;
+    }
+    ctx.closePath();
+
+        //ejex
+        ctx.beginPath();
+        ctx.moveTo(0, aluraMax/2);
+        ctx.lineTo(anchoMax, aluraMax/2);
+        ctx.strokeStyle = "#fa0202"
+        ctx.stroke();
+         ctx.closePath();
+
+    //ejey
+    ctx.beginPath();
+    ctx.moveTo(anchoMax/2, 0);
+    ctx.lineTo(anchoMax/2, aluraMax);
+    ctx.strokeStyle = "#fa0202"
+    ctx.stroke();
+    ctx.closePath();
+    }
+
+    function dibujarimagen (posX, posY) {
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        console.log(posX, posY)
+        var img = new Image();
+        img.src = "images/auto.png";
+
+        canvas.width= canvas.width;
+
+        img.onload = function () {
+            ctx.drawImage(img, posX, posY);
+        }
+
+
+    }
+
+    x=0;
+    dx=2;
+    function animarauto(){
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        canvas.width= canvas.width;
+
+
+        var Img = new Image();
+        Img.src = " images/auto.png ";
+
+
+        Img.onload = function () {
+            ctx.drawImage(Img, x, 100);
+        }
+        if(x>canvas.width){
+         x=0;
+
+        }
+       x=x+dx;
+
+
+    }
